@@ -27,14 +27,14 @@ public class EntreeJeu extends JFrame {
 	 * clic sur le boutton Start
 	 */
 	private void btnStart_Clic() {
-		controle.evenementEntreeJeu("serveur");
+		this.controle.evenementEntreeJeu("serveur");
 	}
 
 	/**
 	 * clic sur le boutton Connect
 	 */
 	private void btnConnect_Clic() {
-		controle.evenementEntreeJeu(txtIp.getText());
+		this.controle.evenementEntreeJeu(this.txtIp.getText());
 	}
 
 	/**
