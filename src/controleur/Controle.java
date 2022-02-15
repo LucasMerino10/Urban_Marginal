@@ -32,7 +32,7 @@ public class Controle implements AsyncResponse {
 		case "connexion" :
 			if (this.typeJeu == "client") {
 				this.frmEntreeJeu.dispose();
-				this.frmChoixJoueur = new ChoixJoueur();
+				this.frmChoixJoueur = new ChoixJoueur(this);
 				this.frmChoixJoueur.setVisible(true);
 				this.frmArene = new Arene();
 			}
@@ -80,6 +80,14 @@ public class Controle implements AsyncResponse {
 			this.typeJeu = "client";
 			new ClientSocket(this, info, PORT);
 		}
+	}
+	
+	/**
+	 * Reçoit le Pseudo et le numero de joueur
+	 */
+	public void evenementChoixJoueur(String pseudo, int numPerso) {
+		this.frmChoixJoueur.dispose();
+		this.frmArene.setVisible(true);
 	}
 
 	

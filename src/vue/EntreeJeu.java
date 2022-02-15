@@ -13,7 +13,7 @@ import javax.swing.JButton;
 
 public class EntreeJeu extends JFrame {
 
-	Controle controle;
+	private Controle controle;
 	/**
 	 * Panel général
 	 */
