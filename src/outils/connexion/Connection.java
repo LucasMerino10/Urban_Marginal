@@ -5,6 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import vue.Arene;
+import vue.EntreeJeu;
+
 /**
  * Gestion de la connexion entre 2 ordinateurs distants
  * @author emds

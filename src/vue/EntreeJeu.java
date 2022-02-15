@@ -4,54 +4,50 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-import java.awt.TextField;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import controleur.Controle;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Label;
 import java.awt.Font;
 import javax.swing.JButton;
 
 public class EntreeJeu extends JFrame {
 
+	Controle controle;
 	/**
 	 * Panel général
 	 */
-	private JPanel contentPane;	
+	private JPanel contentPane;
 	/**
 	 * Zone de saisie de l'IP
 	 */
 	private JTextField txtIp;
-	
+
 	/**
 	 * clic sur le boutton Start
 	 */
 	private void btnStart_Clic() {
-		(new Arene()).setVisible(true);
-		this.dispose();
-}
-	
+		controle.evenementEntreeJeu("serveur");
+	}
+
 	/**
 	 * clic sur le boutton Connect
 	 */
 	private void btnConnect_Clic() {
-		(new ChoixJoueur()).setVisible(true);			
-		this.dispose();
-}
-	
+		controle.evenementEntreeJeu(txtIp.getText());
+	}
+
 	/**
 	 * clic sur le boutton Exit
 	 */
 	private void btnExit_Clic() {
 		System.exit(0);
-}
-	
+	}
+
 	/**
 	 * Create the frame.
 	 */
-	public EntreeJeu() {
+	public EntreeJeu(Controle controle) {
 		setTitle("Urban Marginal");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -109,6 +105,10 @@ public class EntreeJeu extends JFrame {
 		});
 		btnExit.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnExit.setBounds(186, 91, 89, 23);
-		contentPane.add(btnExit);}
-		
+		contentPane.add(btnExit);
+
+		this.controle=controle;
+		}
 }
+
+
