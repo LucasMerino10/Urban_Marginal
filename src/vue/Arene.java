@@ -26,8 +26,12 @@ public class Arene extends JFrame implements Global {
 	/**
 	 * Panel d'affichage des murs
 	 */
-	private JPanel jpnMur;
-	
+	private JPanel jpnMurs;
+	/**
+	 * Panel qui gère l'affichage des objets en mouvement sur la zone de jeu
+	 */
+	private JPanel jpnJeu;
+
 	/**
 	 * Zone de saisie du Chat
 	 */
@@ -53,11 +57,17 @@ public class Arene extends JFrame implements Global {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		jpnMur = new JPanel();
-		jpnMur.setBounds(0, 0, LARGEURARENE, HAUTEURARENE);
-		jpnMur.setOpaque(false);
-		jpnMur.setLayout(null);
-		contentPane.add(jpnMur);
+		jpnJeu = new JPanel();
+		jpnJeu.setBounds(0, 0, LARGEURARENE, HAUTEURARENE);
+		jpnJeu.setOpaque(false);
+		jpnJeu.setLayout(null);
+		contentPane.add(jpnJeu);
+		
+		jpnMurs = new JPanel();
+		jpnMurs.setBounds(0, 0, LARGEURARENE, HAUTEURARENE);
+		jpnMurs.setOpaque(false);
+		jpnMurs.setLayout(null);
+		contentPane.add(jpnMurs);
 		
 		JLabel backgroundImg = new JLabel("");
 		String chemin = "fonds/fondarene.jpg";
@@ -86,8 +96,13 @@ public class Arene extends JFrame implements Global {
 	 * @param unMur
 	 */
 	public void ajoutMurs(Object unMur) {
-		jpnMur.add((JLabel)unMur);
-		jpnMur.repaint();
+		jpnMurs.add((JLabel)unMur);
+		jpnMurs.repaint();
+	}
+	
+	public void ajoutJLabelJeu(JLabel unJLabel) {
+		this.jpnJeu.add(unJLabel);
+		this.jpnJeu.repaint();
 	}
 	
 	/**
@@ -95,7 +110,7 @@ public class Arene extends JFrame implements Global {
 	 * @return jpnMur
 	 */
 	public JPanel getJpnMur() {
-		return jpnMur;
+		return jpnMurs;
 	}
 
 	/**
@@ -103,8 +118,26 @@ public class Arene extends JFrame implements Global {
 	 * @param jpnMur
 	 */
 	public void setJpnMur(JPanel jpnMur) {
-		this.jpnMur.add(jpnMur);
-		this.jpnMur.repaint();
+		this.jpnMurs.add(jpnMur);
+		this.jpnMurs.repaint();
+	}
+	
+	/**
+	 * 
+	 * @return jpnJeu
+	 */
+	public JPanel getJpnJeu() {
+		return jpnJeu;
+	}
+
+	/**
+	 * Setter sur jpnJeu
+	 * @param jpnJeu
+	 */
+	public void setJpnJeu(JPanel jpnJeu) {
+		this.jpnJeu.removeAll();
+		this.jpnJeu.add(jpnJeu);
+		this.jpnJeu.repaint();
 	}
 
 }

@@ -32,7 +32,13 @@ public class JeuClient extends Jeu implements Global {
 	@Override
 	public void reception(Connection connection, Object info) {
 		if (info instanceof JPanel) {
-			controle.evenementJeuClient(AJOUTPANELMURS, info);
+			boolean murOk = false;
+			if(!murOk) {
+				controle.evenementJeuClient(AJOUTPANELMURS, info);
+				murOk = true;
+			}else {
+				controle.evenementJeuClient(AJOUTPANELJEU, info);
+			}
 		}
 	}
 	

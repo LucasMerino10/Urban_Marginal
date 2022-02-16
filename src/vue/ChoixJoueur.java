@@ -13,8 +13,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
 import controleur.Controle;
+import controleur.Global;
 
-public class ChoixJoueur extends JFrame {
+public class ChoixJoueur extends JFrame implements Global {
 	
 	private Controle controle;
 	/**
@@ -38,8 +39,7 @@ public class ChoixJoueur extends JFrame {
 	 * Gestion de l'affichage du personnage
 	 */
 	private void affichePerso(int numPersonnage) {
-		String chemin = "personnages/";
-		String ressource = getClass().getClassLoader().getResource(chemin).getPath();
+		String ressource = getClass().getClassLoader().getResource(CHEMINPERSO).getPath();
 		lblPersonnage.setIcon(new ImageIcon(ressource+ "perso" + numPersonnage + "marche1d1.gif"));
 	}
 	

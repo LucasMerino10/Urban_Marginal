@@ -30,6 +30,14 @@ public interface Global {
 	 */
 	int LARGEURMUR = 34;
 	/**
+	 * Hauteur d'un personnage
+	 */
+	int HAUTEURPERSO = (44+41+42)/3;
+	/**
+	 * Largeur d'un personnage
+	 */
+	int LARGEURPERSO = (39+34+31)/3;
+	/**
 	 * Chemin dossier mur
 	 */
 	String CHEMINMUR = "murs/";
@@ -38,6 +46,10 @@ public interface Global {
 	 */
 	String IMAGEMUR = CHEMINMUR + "mur.gif";
 	/**
+	 * Chemin dossier personnages
+	 */
+	String CHEMINPERSO = "personnages/";
+	/**
 	 * ordre pour ajouter un mur dans l'arène du serveur
 	 */
 	String AJOUTMUR = "ajout mur";
@@ -45,6 +57,14 @@ public interface Global {
 	 * ordre pour ajouter un panel de murs dans l'arène du client
 	 */
 	String AJOUTPANELMURS = "ajout panel murs";
+	/**
+	 * ordre pour ajouter un panel jeu dans l'arène du client
+	 */
+	String AJOUTPANELJEU = "ajout panel jeu";
+	/**
+	 * ordre pour ajouter un jlabel jeu dans l'arene
+	 */
+	String AJOUTJLABELJEU = "ajout jlabel jeu";
 	/**
 	 * vie de départ pour tous les joueurs
 	 */
