@@ -180,5 +180,12 @@ public class Joueur extends Objet {
 	 */
 	public void departJoueur() {
 	}
+
+	/**
+	 * @return pseudo
+	 */
+	public String getPseudo() {
+		return pseudo;
+	}
 	
 }

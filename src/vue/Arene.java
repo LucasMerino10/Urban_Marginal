@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import controleur.Controle;
 import controleur.Global;
 
 import javax.swing.JTextArea;
@@ -16,6 +17,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JScrollPane;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Arene extends JFrame implements Global {
 
@@ -40,12 +43,32 @@ public class Arene extends JFrame implements Global {
 	 * Zone d'affichage du Chat
 	 */
 	private JTextArea txtChat;
+	/**
+	 * Instance du controleur
+	 */
+	private Controle controle;
+	/**
+	 * Type d'instance d'Arène (true si client, false si serveur)
+	 */
+	private boolean client;
+	
+	/**
+	 * Evenement touche pressée dans la zone de texte
+	 * @param e
+	 */
+	public void txtSaisie_KeyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER && (!this.txtSaisie.getText().equals(""))) {
+			this.controle.evenementArene(this.txtSaisie.getText());
+			this.txtSaisie.setText("");
+		}
+	}
 
 
 	/**
 	 * Create the frame.
 	 */
-	public Arene() {
+	public Arene(Controle controle, String type) {
+		this.client = type.equals(CLIENT);
 		// Dimension de la frame en fonction de son contenu
 		this.getContentPane().setPreferredSize(new Dimension(800, 600 + 25 + 140));
 		this.pack();
@@ -76,19 +99,30 @@ public class Arene extends JFrame implements Global {
 		backgroundImg.setBounds(0, 0, 800, 600);
 		contentPane.add(backgroundImg);
 		
-		txtSaisie = new JTextField();
-		txtSaisie.setFont(new Font("Dialog", Font.PLAIN, 12));
-		txtSaisie.setBounds(0, 600, 800, 25);
-		contentPane.add(txtSaisie);
-		txtSaisie.setColumns(10);
+		if(client) {
+			txtSaisie = new JTextField();
+			txtSaisie.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent e) {
+					txtSaisie_KeyPressed(e);
+				}
+			});
+			txtSaisie.setFont(new Font("Dialog", Font.PLAIN, 12));
+			txtSaisie.setBounds(0, 600, 800, 25);
+			contentPane.add(txtSaisie);
+			txtSaisie.setColumns(10);
+		}
+	
+		JScrollPane jspChat = new JScrollPane();
+		jspChat.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		jspChat.setBounds(0, 625, 800, 140);
+		contentPane.add(jspChat);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(0, 625, 800, 140);
-		contentPane.add(scrollPane);
+		txtChat = new JTextArea();
+		txtChat.setEditable(false);
+		jspChat.setViewportView(txtChat);	
 		
-		JTextArea txtChat = new JTextArea();
-		scrollPane.setViewportView(txtChat);	
+		this.controle = controle;
 	}
 	
 	/**
@@ -138,6 +172,32 @@ public class Arene extends JFrame implements Global {
 		this.jpnJeu.removeAll();
 		this.jpnJeu.add(jpnJeu);
 		this.jpnJeu.repaint();
+	}
+
+	/**
+	 * 
+	 * @return String
+	 */
+	public String getTxtChat() {
+		return txtChat.getText();
+	}
+
+	/**
+	 * setter sur txtChat
+	 * @param txtChat
+	 */
+	public void setTxtChat(String txtChat) {
+		this.txtChat.setText(txtChat);
+		this.txtChat.setCaretPosition(this.txtChat.getDocument().getLength());
+	}
+	
+	/**
+	 * Gère l'ajout d'une phrase dans le champ txtChat
+	 * @param phrase
+	 */
+	public void ajoutChat(String phrase) {
+		this.txtChat.setText(this.txtChat.getText()+phrase+"\r\n");
+		this.txtChat.setCaretPosition(this.txtChat.getDocument().getLength());
 	}
 
 }

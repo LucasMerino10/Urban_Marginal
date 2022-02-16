@@ -18,6 +18,14 @@ public interface Global {
 	 */
 	int HAUTEURARENE = 600;
 	/**
+	 * Permet de définir le type d'instance d'arène
+	 */
+	String SERVEUR = "serveur";
+	/**
+	 * Permet de définir le type d'instance d'arène
+	 */
+	String CLIENT = "client";
+	/**
 	 * largeur de la zone de heu de l'arène
 	 */
 	int LARGEURARENE = 800;
@@ -50,6 +58,10 @@ public interface Global {
 	 */
 	String CHEMINPERSO = "personnages/";
 	/**
+	 * ordre pour ajouter une phrase au chat
+	 */
+	String CHAT = "tchat";
+	/**
 	 * ordre pour ajouter un mur dans l'arène du serveur
 	 */
 	String AJOUTMUR = "ajout mur";
@@ -57,6 +69,14 @@ public interface Global {
 	 * ordre pour ajouter un panel de murs dans l'arène du client
 	 */
 	String AJOUTPANELMURS = "ajout panel murs";
+	/**
+	 * ordre pour ajouter une phrase sur l'arène du serveur
+	 */
+	String AJOUTPHRASE = "ajout phrase";
+	/**
+	 * ordre pour modifier le contenu du chat
+	 */
+	String MODIFCHAT = "modif chat";
 	/**
 	 * ordre pour ajouter un panel jeu dans l'arène du client
 	 */
