@@ -7,6 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import controleur.Global;
+
 import javax.swing.JTextArea;
 
 import java.awt.Dimension;
@@ -14,12 +17,17 @@ import java.awt.Font;
 
 import javax.swing.JScrollPane;
 
-public class Arene extends JFrame {
+public class Arene extends JFrame implements Global {
 
 	/**
 	 * Panel général
 	 */
 	private JPanel contentPane;
+	/**
+	 * Panel d'affichage des murs
+	 */
+	private JPanel jpnMur;
+	
 	/**
 	 * Zone de saisie du Chat
 	 */
@@ -45,6 +53,12 @@ public class Arene extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		jpnMur = new JPanel();
+		jpnMur.setBounds(0, 0, LARGEURARENE, HAUTEURARENE);
+		jpnMur.setOpaque(false);
+		jpnMur.setLayout(null);
+		contentPane.add(jpnMur);
+		
 		JLabel backgroundImg = new JLabel("");
 		String chemin = "fonds/fondarene.jpg";
 		String ressource = getClass().getClassLoader().getResource(chemin).getPath();
@@ -64,7 +78,33 @@ public class Arene extends JFrame {
 		contentPane.add(scrollPane);
 		
 		JTextArea txtChat = new JTextArea();
-		scrollPane.setViewportView(txtChat);
-		
+		scrollPane.setViewportView(txtChat);	
 	}
+	
+	/**
+	 * Ajoute un mur au Panel mur
+	 * @param unMur
+	 */
+	public void ajoutMurs(Object unMur) {
+		jpnMur.add((JLabel)unMur);
+		jpnMur.repaint();
+	}
+	
+	/**
+	 * Getter sur jpnMur
+	 * @return jpnMur
+	 */
+	public JPanel getJpnMur() {
+		return jpnMur;
+	}
+
+	/**
+	 * Setter sur jpnMur
+	 * @param jpnMur
+	 */
+	public void setJpnMur(JPanel jpnMur) {
+		this.jpnMur.add(jpnMur);
+		this.jpnMur.repaint();
+	}
+
 }

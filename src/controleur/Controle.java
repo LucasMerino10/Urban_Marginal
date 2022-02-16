@@ -1,6 +1,9 @@
 package controleur;
 
 import outils.connexion.ServeurSocket;
+
+import javax.swing.JPanel;
+
 import modele.Jeu;
 import modele.JeuClient;
 import modele.JeuServeur;
@@ -79,6 +82,7 @@ public class Controle implements AsyncResponse, Global {
 			this.leJeu = new JeuServeur(this);
 			this.frmEntreeJeu.dispose();
 			this.frmArene = new Arene();
+			((JeuServeur)this.leJeu).constructionMurs();
 			this.frmArene.setVisible(true);			
 		}
 		else {
@@ -95,7 +99,44 @@ public class Controle implements AsyncResponse, Global {
 		this.frmArene.setVisible(true);
 		((JeuClient)this.leJeu).envoi(PSEUDO + STRINGSEPARE + pseudo + STRINGSEPARE + numPerso);
 	}
+	
+	/**
+	 * Demande provenant de JeuServeur
+	 * @param ordre
+	 * @param info
+	 */
+	public void evenementJeuServeur(String ordre, Object info) {
+		switch (ordre) {
+		case AJOUTMUR:
+			frmArene.ajoutMurs(info);
+			break;
+		case AJOUTPANELMURS:
+			this.leJeu.envoi((Connection)info, frmArene.getJpnMur());
+			break;
+		}
+	}
+	
+	/**
+	 * Demande provenant de JeuClient
+	 * @param ordre
+	 * @param info
+	 */
+	public void evenementJeuClient(String ordre, Object info) {
+		switch (ordre) {
+		case AJOUTMUR:
+			frmArene.ajoutMurs(info);
+			break;
+		case AJOUTPANELMURS:
+			frmArene.setJpnMur((JPanel)info);
+			break;
+		}
+	}
 
+	/**
+	 * Envoie une info vers l'ordinateur distant
+	 * @param connection
+	 * @param info
+	 */
 	public void envoi(Connection connection, Object info) {
 		connection.envoi(info);
 	}

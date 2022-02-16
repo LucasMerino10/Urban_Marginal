@@ -1,5 +1,7 @@
 package modele;
 
+import javax.swing.JLabel;
+
 /**
  * Informations communes à tous les objets (joueurs, murs, boules)
  * permet de mémoriser la position de l'objet et de gérer les  collisions
@@ -7,6 +9,10 @@ package modele;
  */
 public abstract class Objet {
 
+	/**
+	 * Label contenant un objet graphique
+	 */
+	protected JLabel jLabel;
 	/**
 	 * position X de l'objet
 	 */
@@ -23,6 +29,14 @@ public abstract class Objet {
 	 */
 	public Boolean toucheObjet (Objet objet) {
 		return null;
+	}
+	
+	/**
+	 * Getter sur jLabel
+	 * @return jLabel
+	 */
+	public JLabel getjLabel() {
+		return jLabel;
 	}
 	
 }
