@@ -1,5 +1,7 @@
 package controleur;
 
+import java.awt.event.KeyEvent;
+
 public interface Global {
 	/**
 	 * Charactère de séparation pour les chaînes envoyées
@@ -86,6 +88,14 @@ public interface Global {
 	 */
 	String AJOUTJLABELJEU = "ajout jlabel jeu";
 	/**
+	 * ordre pour effectuer un mouvement
+	 */
+	String ACTION = "action";
+	/**
+	 * Etat du personnage "marche"
+	 */
+	String MARCHE = "marche";
+	/**
 	 * vie de départ pour tous les joueurs
 	 */
 	int MAXVIE = 10 ;
@@ -113,5 +123,9 @@ public interface Global {
 	 * position y max pour le placement du mur
 	 */
 	int YMAX = 554;
+	/**
+	 * Valeur d'un pas
+	 */
+	int PAS = 10;
 
 }

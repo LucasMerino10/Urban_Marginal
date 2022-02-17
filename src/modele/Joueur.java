@@ -1,6 +1,7 @@
 package modele;
 
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -82,7 +83,7 @@ public class Joueur extends Objet {
 		super.jLabel = new JLabel();
 		// création du label du message
 		this.message = new JLabel();
-		message.setFont(new Font("Dialog", Font.PLAIN, 8));
+		message.setFont(new Font("Dialog", Font.PLAIN, 12));
 		message.setHorizontalTextPosition(SwingConstants.CENTER);
 		this.premierePosition(lesJoueurs, lesMurs);
 		this.jeuServeur.ajoutJLabelJeuArene(jLabel);
@@ -109,22 +110,52 @@ public class Joueur extends Objet {
 		String chemin = CHEMINPERSO + "perso" + this.numPerso + etat + etape + "d" + this.orientation + ".gif"; 
 		URL ressource = getClass().getClassLoader().getResource(chemin);
 		super.jLabel.setIcon(new ImageIcon(ressource));
-		this.message.setBounds(posX-10, posY+HAUTEURPERSO, LARGEURPERSO+10, 8);
+		this.message.setBounds(posX-10, posY+HAUTEURPERSO, LARGEURPERSO+40, 15);
 		this.message.setText(this.pseudo + " : " + this.vie);
 		this.jeuServeur.envoiATous();
-	
 	}
 
 	/**
 	 * Gère une action reçue et qu'il faut afficher (déplacement, tire de boule...)
 	 */
-	public void action() {
+	public void action(Integer action, Collection<Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+		switch(action) {
+		case KeyEvent.VK_RIGHT :
+			orientation = 1;
+			posX = deplace(posX, action, PAS, LARGEURARENE-LARGEURPERSO, lesJoueurs, lesMurs);
+			break;
+		case KeyEvent.VK_LEFT :
+			orientation = 0;
+			posX = deplace(posX, action, -PAS, LARGEURARENE-LARGEURPERSO, lesJoueurs, lesMurs);
+			break;
+		case KeyEvent.VK_UP :
+			posY = deplace(posY, action, -PAS, HAUTEURARENE-HAUTEURPERSO, lesJoueurs, lesMurs);
+			break;
+		case KeyEvent.VK_DOWN :
+			posY = deplace(posY, action, PAS, HAUTEURARENE-HAUTEURPERSO, lesJoueurs, lesMurs);
+			break;
+		}
+		this.affiche(MARCHE, this.etape);
 	}
 
 	/**
 	 * Gère le déplacement du personnage
 	 */
-	private void deplace() { 
+	private int deplace(int position, int action, int pas, int max, Collection<Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+		int anciennePos = position;
+		position += pas;
+		position = Math.max(position, 0);
+		position = Math.min(max, position);
+		if(action == KeyEvent.VK_LEFT || action == KeyEvent.VK_RIGHT) {
+			posX = position;
+		}else {
+			posY = position;
+		}
+		if(toucheJoueur(lesJoueurs) || toucheMur(lesMurs)){
+			position = anciennePos;
+		}
+		etape = (etape % 4) + 1;
+		return position;
 	}
 
 	/**

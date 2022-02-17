@@ -28,9 +28,6 @@ public class Controle implements AsyncResponse, Global {
 	private ChoixJoueur frmChoixJoueur;
 	private Jeu leJeu;
 	
-	/**
-	 * 
-	 */
 	@Override
 	public void reception(Connection connection, String ordre, Object info) {
 		// TODO Auto-generated method stub
@@ -112,13 +109,13 @@ public class Controle implements AsyncResponse, Global {
 			frmArene.ajoutMurs(info);
 			break;
 		case AJOUTPANELMURS:
-			this.leJeu.envoi((Connection)info, frmArene.getJpnMur());
-			break;
-		case AJOUTPANELJEU:
-			this.leJeu.envoi((Connection)info, frmArene.getJpnJeu());
+			this.leJeu.envoi((Connection)info, this.frmArene.getJpnMur());
 			break;
 		case AJOUTJLABELJEU:
-			frmArene.ajoutJLabelJeu((JLabel)info);
+			this.frmArene.ajoutJLabelJeu((JLabel)info);
+			break;
+		case AJOUTPANELJEU:
+			this.leJeu.envoi((Connection)info, this.frmArene.getJpnJeu());
 			break;
 		case AJOUTPHRASE :
 			this.frmArene.ajoutChat((String)info);
@@ -158,7 +155,16 @@ public class Controle implements AsyncResponse, Global {
 		connection.envoi(info);
 	}
 	
-	public void evenementArene(String phrase) {
-		((JeuClient)this.leJeu).envoi(CHAT + STRINGSEPARE + phrase);
+	/**
+	 * Gère une information provenant de la vue Arene
+	 * @param phrase
+	 */
+	public void evenementArene(Object info) {
+		if(info instanceof String) {
+			((JeuClient)this.leJeu).envoi(CHAT + STRINGSEPARE + (String)info);
+		}else if(info instanceof Integer){
+			((JeuClient)this.leJeu).envoi(ACTION + STRINGSEPARE + info);
+		}
+		
 	}
 }

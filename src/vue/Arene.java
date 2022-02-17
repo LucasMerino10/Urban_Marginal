@@ -57,12 +57,37 @@ public class Arene extends JFrame implements Global {
 	 * @param e
 	 */
 	public void txtSaisie_KeyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ENTER && (!this.txtSaisie.getText().equals(""))) {
-			this.controle.evenementArene(this.txtSaisie.getText());
-			this.txtSaisie.setText("");
+		// si validation
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			// si la zone de saisie n'est pas vide
+			if(!this.txtSaisie.getText().equals("")) {
+				this.controle.evenementArene(this.txtSaisie.getText());
+				this.txtSaisie.setText("");
+			}
+			this.contentPane.requestFocus();
 		}
 	}
-
+	
+	/**
+	 * Evenement touche pressée sur le panel général
+	 * @param e touche pressée
+	 */
+	public void contentPane_KeyPressed(KeyEvent e) {
+		int touche = -1;
+		switch(e.getKeyCode()) {
+		case KeyEvent.VK_LEFT :
+			touche = e.getKeyCode();
+		case KeyEvent.VK_RIGHT :
+			touche = e.getKeyCode();
+		case KeyEvent.VK_UP :
+			touche = e.getKeyCode();
+		case KeyEvent.VK_DOWN :
+			touche = e.getKeyCode();
+		}
+		if(touche != -1) {
+			controle.evenementArene(touche);
+		}
+	}
 
 	/**
 	 * Create the frame.
@@ -77,6 +102,12 @@ public class Arene extends JFrame implements Global {
 		setTitle("Arena");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();
+		contentPane.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				contentPane_KeyPressed(e);
+			}
+		});
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
@@ -106,6 +137,7 @@ public class Arene extends JFrame implements Global {
 				public void keyPressed(KeyEvent e) {
 					txtSaisie_KeyPressed(e);
 				}
+				
 			});
 			txtSaisie.setFont(new Font("Dialog", Font.PLAIN, 12));
 			txtSaisie.setBounds(0, 600, 800, 25);
@@ -172,6 +204,7 @@ public class Arene extends JFrame implements Global {
 		this.jpnJeu.removeAll();
 		this.jpnJeu.add(jpnJeu);
 		this.jpnJeu.repaint();
+		this.contentPane.requestFocus();
 	}
 
 	/**
