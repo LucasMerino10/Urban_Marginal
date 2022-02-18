@@ -56,6 +56,10 @@ public interface Global {
 	 */
 	String CHEMINBOULE = "boules/";
 	/**
+	 * Chemin dossier sons
+	 */
+	String CHEMINSONS = "sons/";
+	/**
 	 * Chemin de l'image boule
 	 */
 	String BOULE = CHEMINBOULE + "boule.gif";
@@ -63,6 +67,57 @@ public interface Global {
 	 * Image mur
 	 */
 	String IMAGEMUR = CHEMINMUR + "mur.gif";
+	/**
+	 * Son welcome
+	 */
+	String SONWELCOME = CHEMINSONS + "welcome.wav";
+	/**
+	 * Son ambiance
+	 */
+	String SONAMBIANCE = CHEMINSONS + "ambiance.wav";
+	/**
+	 * Son death
+	 */
+	String SONDEATH = CHEMINSONS + "death.wav";
+	/**
+	 * Son fight
+	 */
+	String SONFIGHT = CHEMINSONS + "fight.wav";
+	/**
+	 * Son go
+	 */
+	String SONGO = CHEMINSONS + "go.wav";
+	/**
+	 * Son hurt
+	 */
+	String SONHURT = CHEMINSONS + "hurt.wav";
+	/**
+	 * Son precedent
+	 */
+	String SONPRECEDENT = CHEMINSONS + "precedent.wav";
+	/**
+	 * Son suivant
+	 */
+	String SONSUIVANT = CHEMINSONS + "suivant.wav";
+	/**
+	 * tableau des sons de la vue Arène
+	 */
+	String[] SON =  {CHEMINSONS + "fight.wav", CHEMINSONS + "hurt.wav", CHEMINSONS + "death.wav"} ;
+	/**
+	 * numéro correspondant au son FIGHT
+	 */
+	int FIGHT = 0;
+	/**
+	 * numéro correspondant au son HURT
+	 */
+	int HURT = 1;
+	/**
+	 * numéro correspondant au son DEATH
+	 */
+	int DEATH = 2;
+	/**
+	 * Extension des fichiers des images des personnages
+	 */
 	/**
 	 * Chemin dossier personnages
 	 */
@@ -111,6 +166,10 @@ public interface Global {
 	 * ordre pour afficher l'animation mort
 	 */
 	String MORT = "mort";
+	/**
+	 * ordre pour jouer un son
+	 */
+	String JOUESON = "joue son";
 	/**
 	 * vie de départ pour tous les joueurs
 	 */

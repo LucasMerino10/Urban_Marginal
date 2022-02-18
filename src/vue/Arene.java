@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 
 import controleur.Controle;
 import controleur.Global;
+import outils.son.Son;
 
 import javax.swing.JTextArea;
 
@@ -19,6 +20,7 @@ import java.awt.Font;
 import javax.swing.JScrollPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 
 public class Arene extends JFrame implements Global {
 
@@ -51,6 +53,14 @@ public class Arene extends JFrame implements Global {
 	 * Type d'instance d'Arène (true si client, false si serveur)
 	 */
 	private boolean client;
+	/**
+	 * Son d'ambiance
+	 */
+	private Son ambiance;
+	/**
+	 * Tableau de sons
+	 */
+	private Son[] lesSons = new Son[SON.length];
 	
 	/**
 	 * Evenement touche pressée dans la zone de texte
@@ -129,14 +139,13 @@ public class Arene extends JFrame implements Global {
 		backgroundImg.setBounds(0, 0, 800, 600);
 		contentPane.add(backgroundImg);
 		
-		if(client) {
+		if(this.client) {
 			txtSaisie = new JTextField();
 			txtSaisie.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyPressed(KeyEvent e) {
 					txtSaisie_KeyPressed(e);
 				}
-				
 			});
 			txtSaisie.setFont(new Font("Dialog", Font.PLAIN, 12));
 			txtSaisie.setBounds(0, 600, 800, 25);
@@ -153,7 +162,23 @@ public class Arene extends JFrame implements Global {
 		txtChat.setEditable(false);
 		jspChat.setViewportView(txtChat);	
 		
+		// remplissage du tableau de sons
+		if(client) {
+			URL ambiance = getClass().getClassLoader().getResource(SONAMBIANCE);
+			this.ambiance = new Son(ambiance);
+			this.ambiance.playContinue();
+			for(int k = 0; k < SON.length; k++) {
+				lesSons[k] = new Son(getClass().getClassLoader().getResource(SON[k]));
+			}
+		}
 		this.controle = controle;
+	}
+	
+	/**
+	 * Permet de jouer un son
+	 */
+	public void joueSon(Integer son) {
+		this.lesSons[son].play();
 	}
 	
 	/**

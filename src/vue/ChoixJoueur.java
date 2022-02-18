@@ -11,9 +11,12 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URL;
+
 import javax.swing.SwingConstants;
 import controleur.Controle;
 import controleur.Global;
+import outils.son.Son;
 
 public class ChoixJoueur extends JFrame implements Global {
 	
@@ -34,6 +37,22 @@ public class ChoixJoueur extends JFrame implements Global {
 	 * numero du personnage
 	 */
 	private int numPersonnage;
+	/**
+	 * Son welcome
+	 */
+	private Son welcome;
+	/**
+	 * Son précédent
+	 */
+	private Son precedent;
+	/**
+	 * Son suivant
+	 */
+	private Son suivant;
+	/**
+	 * Son Go
+	 */
+	private Son go;
 	
 	/**
 	 * Gestion de l'affichage du personnage
@@ -66,6 +85,9 @@ public class ChoixJoueur extends JFrame implements Global {
 			txtPseudo.requestFocus();
 		}
 		else {
+			URL go = getClass().getClassLoader().getResource(SONGO);
+			this.go = new Son(go);
+			this.go.play();
 			this.controle.evenementChoixJoueur(txtPseudo.getText(), numPersonnage);
 		}
 	}
@@ -74,6 +96,9 @@ public class ChoixJoueur extends JFrame implements Global {
 	 * Click sur flèche "Précédent"
 	 */
 	private void lblPrecedent_Clic() {
+		URL precedent = getClass().getClassLoader().getResource(SONPRECEDENT);
+		this.precedent = new Son(precedent);
+		this.precedent.play();
 		if (numPersonnage > 1) {
 			numPersonnage --;
 		}
@@ -87,6 +112,9 @@ public class ChoixJoueur extends JFrame implements Global {
 	 * Clic sur flèche "Suivant"
 	 */
 	private void lblSuivant_Clic() {
+		URL suivant = getClass().getClassLoader().getResource(SONSUIVANT);
+		this.suivant = new Son(suivant);
+		this.suivant.play();
 		if (numPersonnage < 3) {
 			numPersonnage++;
 		}
@@ -180,6 +208,11 @@ public class ChoixJoueur extends JFrame implements Global {
 		
 		this.numPersonnage = 1;
 		affichePerso(numPersonnage);
+		
+		// lancement du son Welcome
+		URL welcome = getClass().getClassLoader().getResource(SONWELCOME);
+		this.welcome = new Son(welcome);
+		this.welcome.play();
 		
 		// Positionnement sur la zone de saisie
 		txtPseudo.requestFocus();

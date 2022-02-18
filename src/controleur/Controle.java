@@ -11,6 +11,7 @@ import modele.JeuServeur;
 import outils.connexion.AsyncResponse;
 import outils.connexion.ClientSocket;
 import outils.connexion.Connection;
+import outils.connexion.ServeurSocket;
 import vue.Arene;
 import vue.ChoixJoueur;
 import vue.EntreeJeu;
@@ -131,17 +132,17 @@ public class Controle implements AsyncResponse, Global {
 	 */
 	public void evenementJeuClient(String ordre, Object info) {
 		switch (ordre) {
-		case AJOUTMUR:
-			frmArene.ajoutMurs(info);
-			break;
 		case AJOUTPANELMURS:
-			frmArene.setJpnMur((JPanel)info);
+			this.frmArene.setJpnMur((JPanel)info);
 			break;
 		case AJOUTPANELJEU:
-			frmArene.setJpnJeu((JPanel)info);
+			this.frmArene.setJpnJeu((JPanel)info);
 			break;
 		case MODIFCHAT :
-			frmArene.setTxtChat((String)info);
+			this.frmArene.setTxtChat((String)info);
+			break;
+		case JOUESON :
+			this.frmArene.joueSon((Integer)info);
 			break;
 		}
 	}
