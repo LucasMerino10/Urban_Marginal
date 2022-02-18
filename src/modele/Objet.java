@@ -1,15 +1,15 @@
 package modele;
 
+import java.util.Collection;
 import javax.swing.JLabel;
 
-import controleur.Global;
 
 /**
  * Informations communes à tous les objets (joueurs, murs, boules)
  * permet de mémoriser la position de l'objet et de gérer les  collisions
  *
  */
-public abstract class Objet implements Global {
+public abstract class Objet {
 
 	/**
 	 * Label contenant un objet graphique
@@ -19,6 +19,7 @@ public abstract class Objet implements Global {
 	 * position X de l'objet
 	 */
 	protected Integer posX ;
+	
 	/**
 	 * position Y de l'objet
 	 */
@@ -41,11 +42,39 @@ public abstract class Objet implements Global {
 	}
 	
 	/**
+	 * Vérifie si l'objet actuel touche un des objets de la collection
+	 * @param lesObjets collection d'objets (murs, joueurs ou boules)
+	 * @return l'objet touché ou null
+	 */
+	public Objet toucheCollectionObjets (Collection<Objet> lesObjets) {
+		for (Objet unObjet : lesObjets) {
+			if (!unObjet.equals(this)) {
+				if (toucheObjet(unObjet)) {
+					return unObjet ;
+				}
+			}
+		}
+		return null ;
+	}
+	
+	/**
 	 * Getter sur jLabel
 	 * @return jLabel
 	 */
 	public JLabel getjLabel() {
 		return jLabel;
+	}
+	/**
+	 * @return posY
+	 */
+	public Integer getPosY() {
+		return posY;
+	}
+	/**
+	 * @return posX
+	 */
+	public Integer getPosX() {
+		return posX;
 	}
 	
 }

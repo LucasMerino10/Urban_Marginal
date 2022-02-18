@@ -25,6 +25,15 @@ public class JeuServeur extends Jeu implements Global {
 	 * Collection de joueurs
 	 */
 	private Hashtable<Connection, Joueur> lesJoueurs = new Hashtable<Connection, Joueur>() ;
+	/**
+	 * Retourne la collection de joueurs du serveur
+	 * @return lesJoueurs
+	 */
+	public Collection getLesJoueurs() {
+		return lesJoueurs.values();
+	}
+
+	private Collection joueurs;
 	
 	/**
 	 * Constructeur

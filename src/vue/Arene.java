@@ -76,13 +76,12 @@ public class Arene extends JFrame implements Global {
 		int touche = -1;
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_LEFT :
-			touche = e.getKeyCode();
 		case KeyEvent.VK_RIGHT :
-			touche = e.getKeyCode();
 		case KeyEvent.VK_UP :
+		case KeyEvent.VK_DOWN :		
+		case KeyEvent.VK_SPACE :
 			touche = e.getKeyCode();
-		case KeyEvent.VK_DOWN :
-			touche = e.getKeyCode();
+			break;
 		}
 		if(touche != -1) {
 			controle.evenementArene(touche);

@@ -3,31 +3,20 @@ package modele;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import controleur.Global;
+
+
 
 /**
  * Gestion des joueurs
  *
  */
-public class Joueur extends Objet {
+public class Joueur extends Objet implements Global {
 
-	/**
-	 * vie de départ pour tous les joueurs
-	 */
-	private static final int MAXVIE = 10 ;
-	/**
-	 * gain de points de vie lors d'une attaque
-	 */
-	private static final int GAIN = 1 ; 
-	/**
-	 * perte de points de vie lors d'une attaque
-	 */
-	private static final int PERTE = 2 ; 
 	/**
 	 * Jlabel contenant le nom du joueur et ses points de vie
 	 */
@@ -75,7 +64,7 @@ public class Joueur extends Objet {
 	/**
 	 * Initialisation d'un joueur (pseudo et numéro, calcul de la 1ère position, affichage, création de la boule)
 	 */
-	public void initPerso(String pseudo, int numPerso, Collection<Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+	public void initPerso(String pseudo, int numPerso, Collection lesJoueurs, Collection lesMurs) {
 		this.pseudo = pseudo;
 		this.numPerso = numPerso;
 		System.out.println("joueur " + pseudo + " - num perso " + numPerso + " créé");
@@ -85,21 +74,24 @@ public class Joueur extends Objet {
 		this.message = new JLabel();
 		message.setFont(new Font("Dialog", Font.PLAIN, 12));
 		message.setHorizontalTextPosition(SwingConstants.CENTER);
+		// création de la boule
+		this.boule = new Boule(this.jeuServeur);
 		this.premierePosition(lesJoueurs, lesMurs);
 		this.jeuServeur.ajoutJLabelJeuArene(jLabel);
 		this.jeuServeur.ajoutJLabelJeuArene(message);
+		this.jeuServeur.ajoutJLabelJeuArene(boule.getjLabel());
 		this.affiche("marche", this.etape);
 	}
 
 	/**
 	 * Calcul de la première position aléatoire du joueur (sans chevaucher un autre joueur ou un mur)
 	 */
-	private void premierePosition(Collection<Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+	private void premierePosition(Collection lesJoueurs, Collection lesMurs) {
 		jLabel.setBounds(0, 0, LARGEURPERSO, HAUTEURPERSO);
 		do {
 			posX = (int) Math.round(Math.random() * (LARGEURARENE - LARGEURPERSO)) ;
 			posY = (int) Math.round(Math.random() * (HAUTEURARENE - HAUTEURPERSO - 8)) ;
-		}while(this.toucheJoueur(lesJoueurs) || this.toucheMur(lesMurs));
+		}while(this.toucheCollectionObjets(lesJoueurs) != null || this.toucheCollectionObjets(lesMurs) != null);
 	}
 	
 	/**
@@ -118,7 +110,7 @@ public class Joueur extends Objet {
 	/**
 	 * Gère une action reçue et qu'il faut afficher (déplacement, tire de boule...)
 	 */
-	public void action(Integer action, Collection<Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+	public void action(Integer action, Collection lesJoueurs, Collection lesMurs) {
 		switch(action) {
 		case KeyEvent.VK_RIGHT :
 			orientation = 1;
@@ -134,6 +126,11 @@ public class Joueur extends Objet {
 		case KeyEvent.VK_DOWN :
 			posY = deplace(posY, action, PAS, HAUTEURARENE-HAUTEURPERSO, lesJoueurs, lesMurs);
 			break;
+		case KeyEvent.VK_SPACE :
+			if(!this.boule.getjLabel().isVisible()) {
+				this.boule.tireBoule(this, lesMurs, lesJoueurs);
+			}
+			break;
 		}
 		this.affiche(MARCHE, this.etape);
 	}
@@ -141,7 +138,7 @@ public class Joueur extends Objet {
 	/**
 	 * Gère le déplacement du personnage
 	 */
-	private int deplace(int position, int action, int pas, int max, Collection<Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+	private int deplace(int position, int action, int pas, int max, Collection lesJoueurs, Collection lesMurs) {
 		int anciennePos = position;
 		position += pas;
 		position = Math.max(position, 0);
@@ -151,51 +148,25 @@ public class Joueur extends Objet {
 		}else {
 			posY = position;
 		}
-		if(toucheJoueur(lesJoueurs) || toucheMur(lesMurs)){
+		if(toucheCollectionObjets(lesJoueurs) != null || toucheCollectionObjets(lesMurs) != null){
 			position = anciennePos;
 		}
 		etape = (etape % 4) + 1;
 		return position;
-	}
-
-	/**
-	 * Contrôle si le joueur touche un des autres joueurs
-	 * @return true si deux joueurs se touchent
-	 */
-	private Boolean toucheJoueur(Collection<Joueur> lesJoueurs) {
-		for(Joueur unJoueur : lesJoueurs) {
-			if(!this.equals(unJoueur)) {
-				if(super.toucheObjet(unJoueur)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	/**
-	* Contrôle si le joueur touche un des murs
-	 * @return true si un joueur touche un mur
-	 */
-	private Boolean toucheMur(ArrayList<Mur> lesMurs) {
-		for(Mur unMur : lesMurs) {
-			if(toucheObjet(unMur)) {
-				return true;
-			};
-		}
-		return false;
 	}
 	
 	/**
 	 * Gain de points de vie après avoir touché un joueur
 	 */
 	public void gainVie() {
+		this.vie = Math.min(this.vie + GAIN, MAXVIE);
 	}
 	
 	/**
 	 * Perte de points de vie après avoir été touché 
 	 */
 	public void perteVie() {
+		this.vie = Math.max(0, this.vie - PERTE);
 	}
 	
 	/**
@@ -203,7 +174,7 @@ public class Joueur extends Objet {
 	 * @return true si vie = 0
 	 */
 	public Boolean estMort() {
-		return null;
+		return (this.vie == 0);
 	}
 	
 	/**
@@ -217,6 +188,12 @@ public class Joueur extends Objet {
 	 */
 	public String getPseudo() {
 		return pseudo;
+	}
+	/**
+	 * @return orientation
+	 */
+	public int getOrientation() {
+		return orientation;
 	}
 	
 }

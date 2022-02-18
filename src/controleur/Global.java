@@ -52,6 +52,14 @@ public interface Global {
 	 */
 	String CHEMINMUR = "murs/";
 	/**
+	 * Chemin dossier boule
+	 */
+	String CHEMINBOULE = "boules/";
+	/**
+	 * Chemin de l'image boule
+	 */
+	String BOULE = CHEMINBOULE + "boule.gif";
+	/**
 	 * Image mur
 	 */
 	String IMAGEMUR = CHEMINMUR + "mur.gif";
@@ -96,6 +104,14 @@ public interface Global {
 	 */
 	String MARCHE = "marche";
 	/**
+	 * ordre pour afficher l'animation touché
+	 */
+	String TOUCHE = "touche";
+	/**
+	 * ordre pour afficher l'animation mort
+	 */
+	String MORT = "mort";
+	/**
 	 * vie de départ pour tous les joueurs
 	 */
 	int MAXVIE = 10 ;
@@ -127,5 +143,13 @@ public interface Global {
 	 * Valeur d'un pas
 	 */
 	int PAS = 10;
+	/**
+	 * Hauteur de la boule
+	 */
+	int HAUTEURBOULE = 17;
+	/**
+	 * Largeur de la boule
+	 */
+	int LARGEURBOULE = 17;
 
 }
