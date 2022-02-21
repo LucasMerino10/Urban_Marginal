@@ -28,6 +28,10 @@ public interface Global {
 	 */
 	String CLIENT = "client";
 	/**
+	 * Message Deconnexion
+	 */
+	String DECONNEXION = "deconnexion";
+	/**
 	 * largeur de la zone de heu de l'arène
 	 */
 	int LARGEURARENE = 800;

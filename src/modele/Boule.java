@@ -71,6 +71,7 @@ public class Boule extends Objet implements Global, Runnable {
 			posX += lePas;
 			jLabel.setBounds(posX, posY, LARGEURBOULE, HAUTEURBOULE);
 			this.jeuServeur.envoiATous();
+			pause(12, 0);
 			Collection lesJoueurs = this.jeuServeur.getLesJoueurs();
 			victime = (Joueur)super.toucheCollectionObjets(lesJoueurs);
 		}while(posX > 0 && posX < LARGEURARENE && victime == null && this.toucheCollectionObjets(lesMurs) == null);

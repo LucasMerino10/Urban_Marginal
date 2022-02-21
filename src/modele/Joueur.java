@@ -111,28 +111,30 @@ public class Joueur extends Objet implements Global {
 	 * Gère une action reçue et qu'il faut afficher (déplacement, tire de boule...)
 	 */
 	public void action(Integer action, Collection lesJoueurs, Collection lesMurs) {
-		switch(action) {
-		case KeyEvent.VK_RIGHT :
-			orientation = 1;
-			posX = deplace(posX, action, PAS, LARGEURARENE-LARGEURPERSO, lesJoueurs, lesMurs);
-			break;
-		case KeyEvent.VK_LEFT :
-			orientation = 0;
-			posX = deplace(posX, action, -PAS, LARGEURARENE-LARGEURPERSO, lesJoueurs, lesMurs);
-			break;
-		case KeyEvent.VK_UP :
-			posY = deplace(posY, action, -PAS, HAUTEURARENE-HAUTEURPERSO, lesJoueurs, lesMurs);
-			break;
-		case KeyEvent.VK_DOWN :
-			posY = deplace(posY, action, PAS, HAUTEURARENE-HAUTEURPERSO, lesJoueurs, lesMurs);
-			break;
-		case KeyEvent.VK_SPACE :
-			if(!this.boule.getjLabel().isVisible()) {
-				this.boule.tireBoule(this, lesMurs, lesJoueurs);
+		if(!this.estMort()) {
+			switch(action) {
+			case KeyEvent.VK_RIGHT :
+				orientation = 1;
+				posX = deplace(posX, action, PAS, LARGEURARENE-LARGEURPERSO, lesJoueurs, lesMurs);
+				break;
+			case KeyEvent.VK_LEFT :
+				orientation = 0;
+				posX = deplace(posX, action, -PAS, LARGEURARENE-LARGEURPERSO, lesJoueurs, lesMurs);
+				break;
+			case KeyEvent.VK_UP :
+				posY = deplace(posY, action, -PAS, HAUTEURARENE-HAUTEURPERSO, lesJoueurs, lesMurs);
+				break;
+			case KeyEvent.VK_DOWN :
+				posY = deplace(posY, action, PAS, HAUTEURARENE-HAUTEURPERSO, lesJoueurs, lesMurs);
+				break;
+			case KeyEvent.VK_SPACE :
+				if(!this.boule.getjLabel().isVisible()) {
+					this.boule.tireBoule(this, lesMurs, lesJoueurs);
+				}
+				break;
 			}
-			break;
+			this.affiche(MARCHE, this.etape);
 		}
-		this.affiche(MARCHE, this.etape);
 	}
 
 	/**
@@ -181,6 +183,12 @@ public class Joueur extends Objet implements Global {
 	 * Le joueur se déconnecte et disparait
 	 */
 	public void departJoueur() {
+		if(jLabel != null) {
+			this.jLabel.setVisible(false);
+			this.boule.getjLabel().setVisible(false);
+			this.message.setVisible(false);
+			this.jeuServeur.envoiATous();
+		}
 	}
 
 	/**
